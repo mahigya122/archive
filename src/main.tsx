@@ -1,10 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
 import App from './App.tsx'
+import {ArchiveProvider} from "./context/archiveContext";
+import { IconContext } from "@phosphor-icons/react";
+import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <IconContext.Provider value={{ color: "currentColor", size: "1.5em" }}>
+    <ArchiveProvider>
+      <App />
+    </ArchiveProvider>
+    </IconContext.Provider>
   </StrictMode>,
 )
