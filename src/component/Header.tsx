@@ -1,53 +1,60 @@
 import React from "react";
-import { useArchive } from "../context/archiveContext";
+import { useArchive } from "../context/postContext";
 import { Sun, Moon } from "@phosphor-icons/react";
 import { Trash } from "lucide-react";
 
 
+import { Atom } from "@phosphor-icons/react";
+
 const Header: React.FC = () => {
-  const { posts, query, setQuery, theme, toggleTheme, clearPosts, filteredPosts } = useArchive();
-  const postToDisplay = query ? filteredPosts.length : posts.length;
+  const { posts, query, setQuery, theme, toggleTheme, clearPosts, totalResults } = useArchive();
+  const postToDisplay = query ? totalResults : posts.length;
+  
   return (
-    <header className="w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white shadow-lg px-6 py-4">
-
-      <div className="flex items-center justify-between">
-
-        <div className="flex flex-col">
-          <h1 className="text-2xl font-bold tracking-wide">
-            The Archive
+    <header className="w-full bg-surface border-b border-border px-6 py-3 shadow-sm sticky top-0 z-50">
+      <div className="max-w-[1400px] mx-auto flex items-center justify-between gap-4">
+        
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="bg-accent/10 p-1.5 rounded-lg text-accent">
+            <Atom size={28} weight="duotone" />
+          </div>
+          <h1 className="text-xl font-extrabold tracking-tight text-text-strong uppercase">
+            The Atomic <span className="text-primary">Archive</span>
           </h1>
+        </div>
 
-          <span className="text-sm text-gray-300">
-            {postToDisplay} results
+        <div className="flex items-center gap-2 px-4 py-1.5 bg-surface-soft rounded-full border border-border shrink-0">
+          <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+          <span className="text-xs font-bold text-text-muted uppercase tracking-tighter">
+            {postToDisplay} atomic posts found
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
-
+        <div className="flex-1 max-w-md mx-4 relative group">
           <input
             type="text"
-            placeholder="Search archive..."
+            placeholder="Search posts..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-64 rounded-lg px-3 py-2 text-gray-300 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-surface-soft border border-border rounded-lg px-4 py-2 text-sm text-text-strong placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
           />
+        </div>
 
+        <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={clearPosts}
-            className="flex items-center gap-1 rounded bg-red-600 hover:bg-red-700 px-3 py-2 text-sm"
+            className="px-4 py-2 bg-primary hover:bg-primary-strong text-white text-xs font-bold rounded-lg shadow-sm transition-all active:scale-95"
           >
-            <Trash size={16} />
-            Clear
+            Clear posts
           </button>
 
           <button
             onClick={toggleTheme}
             aria-label="toggle theme"
-            className="rounded p-2 hover:bg-gray-700"
+            className="p-2 hover:bg-surface-soft text-text-strong border border-border rounded-lg transition-colors"
           >
-            {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
+            {theme === "light" ? <Moon size={20} weight="fill" /> : <Sun size={20} weight="fill" />}
           </button>
-
         </div>
 
       </div>

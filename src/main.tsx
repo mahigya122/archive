@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
-import {ArchiveProvider} from "./context/archiveContext";
+import {ArchiveProvider} from "./context/postContext.tsx";
 import { IconContext } from "@phosphor-icons/react";
 import './index.css'
 

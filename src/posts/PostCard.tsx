@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {useArchive} from "../context/archiveContext";
+import {useArchive} from "../context/postContext";
 
 export default function PostCard() {
     const [text, setText] = useState("");
@@ -15,27 +15,32 @@ export default function PostCard() {
     };
 
     return(
-        <div className="p-8 max-w space-y-6 ">
-            <h2 className="text-2xl font-bold">Create a Post</h2>
-            <input 
-                type="text"
-                placeholder="Title"
-                className="w-full rounded bg-white px-3 py-2 text-black placeholder:text-gray-500"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-            />
-            <textarea
-                placeholder="Content"
-                className="w-full rounded bg-white px-3 py-2 text-black placeholder:text-gray-500"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-            />
-            <button 
-                onClick={handlePosts}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-                Create Post
-            </button>
+        <div className="w-full bg-surface-soft border border-border rounded-xl p-4 shadow-sm max-w-[1400px] mx-auto">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <div className="flex-1 flex flex-col sm:flex-row gap-3">
+                    <input 
+                        type="text"
+                        placeholder="Post title"
+                        className="flex-[0.4] bg-surface border border-border rounded-lg px-4 py-2.5 text-sm text-text-strong placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                    />
+                    <textarea
+                        placeholder="Post body"
+                        rows={1}
+                        className="flex-1 bg-surface border border-border rounded-lg px-4 py-2.5 text-sm text-text-strong placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none min-h-[42px]"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                </div>
+
+                <button 
+                    onClick={handlePosts}
+                    className="sm:w-32 bg-primary hover:bg-primary-strong text-white text-xs font-bold py-2.5 px-6 rounded-lg shadow-md shadow-primary/20 transition-all active:scale-95 shrink-0"
+                >
+                    Add post
+                </button>
+            </div>
         </div>
     )
-}
+    }

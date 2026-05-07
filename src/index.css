@@ -3,46 +3,46 @@
 @import url("https://googleapis.com");
 
 @theme {
-  --color-bg-main: #f6f4ef;
-  --color-bg-top: #fcfaf5;
+  --color-bg-main: #f8fafc;
+  --color-bg-top: #ffffff;
   --color-surface: #ffffff;
-  --color-surface-soft: #f1ede6;
-  --color-surface-tint: #f8f3ea;
-  --color-text-strong: #1f2937;
-  --color-text-muted: #6b7280;
-  --color-primary: #e7cdbe;
-  --color-primary-strong: #e3d9d3;
-  --color-secondary: #e9d9c8;
-  --color-accent: #1f6f78;
-  --color-accent-soft: #def0f2;
-  --color-border: #e8e1d5;
-  --color-ring: rgba(31, 111, 120, 0.24);
+  --color-surface-soft: #f1f5f9;
+  --color-surface-tint: #f8fafc;
+  --color-text-strong: #1e1b4b;
+  --color-text-muted: #64748b;
+  --color-primary: #7c3aed;
+  --color-primary-strong: #6d28d9;
+  --color-secondary: #a78bfa;
+  --color-accent: #10b981;
+  --color-accent-soft: #d1fae5;
+  --color-border: #e2e8f0;
+  --color-ring: rgba(124, 58, 237, 0.2);
   
-  --shadow-lg: 0 16px 34px rgba(17, 24, 39, 0.12);
-  --shadow-md: 0 8px 20px rgba(17, 24, 39, 0.08);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
-  --font-sans: "Manrope", "Trebuchet MS", sans-serif;
+  --font-sans: "Manrope", "Inter", system-ui, sans-serif;
   --font-serif: "Fraunces", Georgia, serif;
 }
 
  @layer base{ 
     .dark {
-    --color-bg-main: #0b0f19;
-    --color-bg-top: #111827;
-    --color-surface: #1e293b;
-    --color-surface-soft: #334155;
-    --color-surface-tint: #1e293b;
-    --color-text-strong:  #ffffff;
+    --color-bg-main: #0a0510;
+    --color-bg-top: #160d25;
+    --color-surface: #160d25;
+    --color-surface-soft: #2d1b4e;
+    --color-surface-tint: #160d25;
+    --color-text-strong: #e2e8f0;
     --color-text-muted: #94a3b8;
-    --color-primary: #334155;
-    --color-primary-strong: #475569;
-    --color-secondary:  #1e293b;
-    --color-accent: #38bdf8;
-    --color-accent-soft: #075985;
-    --color-border:#334155;
-    --color-ring: rgba(56, 189, 248, 0.4); /* Stronger ring */
-    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --color-primary: #a78bfa;
+    --color-primary-strong: #c4b5fd;
+    --color-secondary: #7c3aed;
+    --color-accent: #34d399;
+    --color-accent-soft: #064e3b;
+    --color-border: #2d1b4e;
+    --color-ring: rgba(167, 139, 250, 0.4);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -62,9 +62,9 @@ body {
   font-family: var(--font-sans);
   color: var(--color-text-strong);
   background:
-    radial-gradient(circle at 0% 0%, rgba(240, 163, 74, 0.16), transparent 34%),
-    radial-gradient(circle at 100% 5%, rgba(31, 111, 120, 0.1), transparent 30%),
-    linear-gradient(180deg, var(--color-bg-top), var(--color-bg-main));
+    radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.08), transparent 45%),
+    radial-gradient(circle at 100% 0%, rgba(16, 185, 129, 0.05), transparent 45%),
+    var(--color-bg-main);
 }
 
 /* Base Layout Layout Elements */
