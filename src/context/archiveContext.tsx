@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {faker} from "@faker-js/faker";
 
 
@@ -40,9 +40,17 @@ export function ArchiveProvider ({
   const [posts, setPosts] = useState<PostItem[]>([]);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');  
   const [query, setQuery] = useState("");
-  
 
-  function toggleTheme() {
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    }, [theme]);
+  
+function toggleTheme() {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   }
 

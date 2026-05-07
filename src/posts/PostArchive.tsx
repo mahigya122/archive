@@ -9,11 +9,11 @@ export default function PostArchive() {
     <section className="p-6 space-y-4">
 
     <div className="flex items-center justify-between">
-    <h2 className="text-xl font-bold">Post Archive</h2>
+    <h2 className="text-xl font-bold font-san text-gray-900 dark:text-white">Post Archive</h2>
 
      <button
           onClick={() => setShowArchive((prev) => !prev)}
-          className="text-sm px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600"
+          className="text-sm px-3 py-1 rounded bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition"
         >
           {showArchive ? "Hide" : "Show"}
         </button>
@@ -24,7 +24,7 @@ export default function PostArchive() {
         {archive.map((post) => (
           <div
             key={post.id}
-            className="border p-4 rounded bg-gray-100"
+            className="border p-4 rounded bg-white text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
           >
             <h3 className="text-lg font-semibold">
               {post.text}
