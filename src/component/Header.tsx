@@ -5,7 +5,7 @@ import { Trash } from "lucide-react";
 
 
 const Header: React.FC = () => {
-  const { totalResults, query, setQuery, theme, toggleTheme, clearPosts } = useArchive();
+  const { posts, query, setQuery, theme, toggleTheme, clearPosts } = useArchive();
 
   return (
     <header className="w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white shadow-lg px-6 py-4">
@@ -18,7 +18,7 @@ const Header: React.FC = () => {
           </h1>
 
           <span className="text-sm text-gray-300">
-            {totalResults} results
+            {posts.length} results
           </span>
         </div>
 
