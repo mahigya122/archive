@@ -1,9 +1,10 @@
 import { useArchive } from "../context/archiveContext";
 
 export default function PostList() {
-  const { posts } = useArchive();
-
-  if (posts.length === 0) {
+  const { posts ,query, filteredPosts} = useArchive();
+  const postToDisplay = query ? filteredPosts : posts;
+  
+  if (posts.length === 0) { 
     return (
       <section className="px-8">
         <p className="text-gray-500">
@@ -19,7 +20,7 @@ export default function PostList() {
         Published Posts
       </h2>
 
-      {posts.map((post) => (
+      {postToDisplay.map((post) => (
         <div
           key={post.id}
           className="rounded border bg-white p-4 shadow"

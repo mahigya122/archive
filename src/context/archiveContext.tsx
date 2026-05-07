@@ -14,6 +14,7 @@ archive: PostItem[];
 query: string;
 theme: 'light' | 'dark';
 totalResults: number;
+filteredPosts: PostItem[];
 
 setQuery: (query: string) => void;
 toggleTheme: () => void;
@@ -68,15 +69,14 @@ function toggleTheme() {
     setPosts([]);
   }
   
-  const filteredPosts = archive.filter((post) =>
+  const filteredPosts = posts.filter((post) =>
     post.text.toLowerCase().includes(query.toLowerCase()) ||
     post.description.toLowerCase().includes(query.toLowerCase())
   );
 
-
     return(
         <ArchiveContext.Provider value={{ 
-            posts, archive: filteredPosts, theme, toggleTheme, query, setQuery, totalResults: filteredPosts.length, addPost, clearPosts
+            posts, archive, filteredPosts, theme, toggleTheme, query, setQuery, totalResults: filteredPosts.length, addPost, clearPosts
             }}>
           {children}
         </ArchiveContext.Provider>
