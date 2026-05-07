@@ -1,21 +1,23 @@
-import { createContext, useContext, useEffect, useReducer} from "react";
+import { createContext, useContext, useReducer} from "react";
 import {faker} from "@faker-js/faker";
-import type { ArchiveAction } from "../type";
+import type { ArchiveAction, SourceFilterType } from "../type";
 
 export interface PostItem {
   id: string;
   text: string;
   description: string;
 }
-export interface ArchiveState {
+
+ export interface ArchiveState {
   posts: PostItem[];
   archive: PostItem[];
   query: string;
-  theme: 'light' | 'dark';
+  sourceFilter: SourceFilterType;
 }
+
 interface ArchiveContextType extends ArchiveState {
 setQuery: (query: string) => void;
-toggleTheme: () => void;
+setSourceFilter: (filter: SourceFilterType) => void;
 addPost: (text: string, description: string) => void;
 clearPosts: () => void;
 filteredPosts: PostItem[];
@@ -37,8 +39,8 @@ const initialArchive = faker.helpers.multiple(createRandomPost, { count: 100 });
 const initialState: ArchiveState = {
   posts: [],
   archive: initialArchive,
-  theme: 'light',
   query: "",
+  sourceFilter: "all",
 };
 
 function ArchiveReducer( state: ArchiveState, action: ArchiveAction): ArchiveState {
@@ -54,8 +56,8 @@ function ArchiveReducer( state: ArchiveState, action: ArchiveAction): ArchiveSta
       return { ...state, posts: [] }; 
     case "SET_QUERY":
       return { ...state, query: action.payload };
-    case "TOGGLE_THEME":
-      return { ...state, theme: state.theme === 'light' ? 'dark' : 'light' };    
+    case "SET_SOURCE_FILTER":
+      return { ...state, sourceFilter: action.payload };
     default:
       return state;
   }
@@ -67,32 +69,40 @@ export function ArchiveProvider({
 
   const [state, dispatch] = useReducer(ArchiveReducer, initialState);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    if (state.theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    }, [state.theme]);
+  let targetPosts : PostItem[] = [];
+
+  if (state.sourceFilter === "all") {
+    targetPosts = [...state.posts, ...state.archive];
+  } else if (state.sourceFilter === "user") {
+    targetPosts = state.posts;
+  } else if (state.sourceFilter === "archive") {
+    targetPosts = state.archive;
+  }
+
+  const filteredPosts = targetPosts.filter((post) => {
+    const LowerQuery = state.query.toLowerCase();
+    return (
+      post.text.toLowerCase().includes(LowerQuery) ||
+      post.description.toLowerCase().includes(LowerQuery)
+    );
+  });
   
   const setQuery = (query: string) => 
     dispatch({ type: "SET_QUERY", payload: query });
-  const toggleTheme = () => 
-    dispatch({ type: "TOGGLE_THEME" });
+
+  const setSourceFilter = (filter: SourceFilterType) =>
+    dispatch({ type: "SET_SOURCE_FILTER", payload: filter });
+
   const addPost = (text: string, description: string) => 
     dispatch({ type: "ADD_POST", payload: { text, description } });
+
   const clearPosts = () => 
     dispatch({ type: "CLEAR_POSTS" });
   
-  const filteredPosts = state.posts.filter((post) =>
-    post.text.toLowerCase().includes(state.query.toLowerCase()) ||
-    post.description.toLowerCase().includes(state.query.toLowerCase())
-  );
 
     return(
         <ArchiveContext.Provider value={{ 
-            ...state,filteredPosts, totalResults: filteredPosts.length, toggleTheme, setQuery, addPost, clearPosts
+            ...state,filteredPosts, totalResults: filteredPosts.length, setSourceFilter, setQuery, addPost, clearPosts
             }}>
           {children}
         </ArchiveContext.Provider>

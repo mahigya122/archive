@@ -1,18 +1,18 @@
 import React from "react";
 import { useArchive } from "../context/postContext";
+import { useTheme } from "../context/themeContext";
 import { Sun, Moon } from "@phosphor-icons/react";
-import { Trash } from "lucide-react";
-
-
 import { Atom } from "@phosphor-icons/react";
+import type { SourceFilterType } from "../type";
 
 const Header: React.FC = () => {
-  const { posts, query, setQuery, theme, toggleTheme, clearPosts, totalResults } = useArchive();
+  const { posts, query, sourceFilter, setQuery, setSourceFilter, clearPosts, totalResults } = useArchive();
+  const { theme, toggleTheme } = useTheme();
   const postToDisplay = query ? totalResults : posts.length;
-  
+
   return (
     <header className="w-full bg-surface border-b border-border px-6 py-3 shadow-sm sticky top-0 z-50">
-      <div className="max-w-[1400px] mx-auto flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         
         <div className="flex items-center gap-3 shrink-0">
           <div className="bg-accent/10 p-1.5 rounded-lg text-accent">
@@ -30,15 +30,28 @@ const Header: React.FC = () => {
           </span>
         </div>
 
-        <div className="flex-1 max-w-md mx-4 relative group">
+         {/* Search & Dropdown Box container */}
+        <div className="flex-1 max-w-md mx-4 flex items-center gap-2">
           <input
             type="text"
             placeholder="Search posts..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full bg-surface-soft border border-border rounded-lg px-4 py-2 text-sm text-text-strong placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+            className="w-2/3 bg-surface-soft border border-border rounded-lg px-4 py-2 test-sm text-text-strong placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all "
           />
+
+        {/* Dropdown Menu element connected to Context */}
+        <select
+        value ={sourceFilter}
+        onChange= {(e) => setSourceFilter(e.target.value as SourceFilterType)}
+        className="w-2/3 bg-surface-soft border border-border rounded-lg px-3 py-2 text-sm text-text-strong cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all "
+        >
+          <option value="all">All Posts</option>
+          <option value="user">My Posts</option>
+          <option value="archive">Archive</option>
+        </select>
         </div>
+
 
         <div className="flex items-center gap-3 shrink-0">
           <button

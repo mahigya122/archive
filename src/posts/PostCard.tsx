@@ -15,7 +15,7 @@ export default function PostCard() {
     };
 
     return(
-        <div className="w-full bg-surface-soft border border-border rounded-xl p-4 shadow-sm max-w-[1400px] mx-auto">
+        <div className="w-full bg-surface-soft border border-border rounded-xl p-4 shadow-sm max-w-7xl mx-auto">
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <div className="flex-1 flex flex-col sm:flex-row gap-3">
                     <input 
@@ -28,7 +28,7 @@ export default function PostCard() {
                     <textarea
                         placeholder="Post body"
                         rows={1}
-                        className="flex-1 bg-surface border border-border rounded-lg px-4 py-2.5 text-sm text-text-strong placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none min-h-[42px]"
+                        className="flex-1 bg-surface border border-border rounded-lg px-4 py-2.5 text-sm text-text-strong placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none min-h-10"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
