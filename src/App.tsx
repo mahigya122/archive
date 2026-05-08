@@ -1,4 +1,3 @@
-import { useArchive } from "./context/postContext";
 import Header from "./component/Header";
 import PostArchive from "./posts/PostArchive";
 import Post from "./posts/PostCard";
