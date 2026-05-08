@@ -46,7 +46,7 @@ export default function PostArchive() {
 
           {/* {sourceFilter !== "user" && ( */}
           <button 
-                onClick={() => addPost(post.text, post.description)}
+                onClick={() => addPost(post.text, post.description, post.image instanceof File ? post.image : null)}
                 className="shrink-0 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg border border-primary/20 text-primary hover:bg-primary hover:text-white transition-all"
               >
                 Restore post
