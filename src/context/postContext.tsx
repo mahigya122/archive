@@ -6,6 +6,7 @@ export interface PostItem {
   id: string;
   text: string;
   description: string;
+  image?: File | null;
 }
 
  export interface ArchiveState {
@@ -18,7 +19,7 @@ export interface PostItem {
 interface ArchiveContextType extends ArchiveState {
 setQuery: (query: string) => void;
 setSourceFilter: (filter: SourceFilterType) => void;
-addPost: (text: string, description: string) => void;
+addPost: (text: string, description: string, image: File | null) => void;
 clearPosts: () => void;
 deletePost: (id: string) => void;
 
@@ -34,6 +35,7 @@ function createRandomPost() {
     id: faker.string.uuid(),
     text: `${faker.hacker.adjective()} ${faker.hacker.noun()}`,
     description: faker.hacker.phrase(),
+    image: null,
   };
 }
 
@@ -54,6 +56,7 @@ function ArchiveReducer( state: ArchiveState, action: ArchiveAction): ArchiveSta
         id: faker.string.uuid(),
         text: action.payload.text,
         description: action.payload.description,
+        image: action.payload.image,
         
       };
       return { ...state, posts: [...state.posts, newPost] };  
@@ -101,8 +104,8 @@ const [state, dispatch] = useReducer(ArchiveReducer, initialState);
   const setSourceFilter = (filter: SourceFilterType) =>
     dispatch({ type: "SET_SOURCE_FILTER", payload: filter });
 
-  const addPost = (text: string, description: string) => 
-    dispatch({ type: "ADD_POST", payload: { text, description } });
+  const addPost = (text: string, description: string, image: File | null) => 
+    dispatch({ type: "ADD_POST", payload: { text, description, image } });
 
   const deletePost = (id: string) =>
     dispatch({ type: "DELETE_POST", payload: id,});

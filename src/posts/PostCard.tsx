@@ -4,14 +4,23 @@ import {useArchive} from "../context/postContext";
 export default function PostCard() {
     const [text, setText] = useState("");
     const [description, setDescription] = useState("");
+    const [image, setImage] = useState<File | null>(null);
 
     const { addPost } = useArchive();
 
+    const handlePostsFilechange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files;
+        if (file && file[0]) {  
+            setImage(file[0]);
+        }
+    }
+
     const handlePosts = () => {
         if (!text.trim() || !description.trim()) return;
-           addPost(text, description);
+           addPost(text, description, image);
            setText("");
            setDescription("");
+           setImage(null);
     };
 
     return(
@@ -32,6 +41,18 @@ export default function PostCard() {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
+                    <label className="flex items-center justify-center bg-surface border border-border rounded-lg px-4 py-2.5 text-sm text-text-strong cursor-pointer hover:bg-surface-hover transition-all focus-within:ring-2 focus-within:ring-primary/30">
+                        <span className="text-text-muted truncate">
+                         { image ? image.name : "Upload image" }
+                        </span>
+
+                    <input 
+                    type = "file"
+                    accept = "image/*"
+                    className="hidden"
+                    onChange = {handlePostsFilechange}
+                    />
+                    </label>
                 </div>
 
                 <button 
