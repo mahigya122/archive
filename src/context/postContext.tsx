@@ -20,7 +20,10 @@ setQuery: (query: string) => void;
 setSourceFilter: (filter: SourceFilterType) => void;
 addPost: (text: string, description: string) => void;
 clearPosts: () => void;
-filteredPosts: PostItem[];
+deletePost: (id: string) => void;
+
+filteredUserPosts: PostItem[];    
+filteredArchivePosts: PostItem[];
 totalResults: number;
 }   
 
@@ -47,9 +50,11 @@ function ArchiveReducer( state: ArchiveState, action: ArchiveAction): ArchiveSta
   switch (action.type) {
     case "ADD_POST":
       const newPost: PostItem = {
+
         id: faker.string.uuid(),
         text: action.payload.text,
         description: action.payload.description,
+        
       };
       return { ...state, posts: [...state.posts, newPost] };  
     case "CLEAR_POSTS":
@@ -58,35 +63,38 @@ function ArchiveReducer( state: ArchiveState, action: ArchiveAction): ArchiveSta
       return { ...state, query: action.payload };
     case "SET_SOURCE_FILTER":
       return { ...state, sourceFilter: action.payload };
+    case "DELETE_POST":
+      return {...state, posts: state.posts.filter(
+      (post) => post.id !== action.payload
+    ),
+  };  
     default:
       return state;
   }
 }
 
-export function ArchiveProvider({   
-    children,
-} : { children: React.ReactNode }) {
+export function ArchiveProvider({children,} : { children: React.ReactNode }) {
+const [state, dispatch] = useReducer(ArchiveReducer, initialState);
+   
+  const lowerQuery = state.query.toLowerCase();
 
-  const [state, dispatch] = useReducer(ArchiveReducer, initialState);
+  const filteredUserPosts = state.posts.filter((post) =>
+      post.text.toLowerCase().includes(lowerQuery) ||
+      post.description.toLowerCase().includes(lowerQuery)
+  );
 
-  let targetPosts : PostItem[] = [];
+  const filteredArchivePosts = state.archive.filter((post) =>
+      post.text.toLowerCase().includes(lowerQuery) ||
+      post.description.toLowerCase().includes(lowerQuery)
+  );
 
-  if (state.sourceFilter === "all") {
-    targetPosts = [...state.posts, ...state.archive];
-  } else if (state.sourceFilter === "user") {
-    targetPosts = state.posts;
-  } else if (state.sourceFilter === "archive") {
-    targetPosts = state.archive;
-  }
+  const totalResults =
+  state.sourceFilter === "all"
+    ? filteredUserPosts.length + filteredArchivePosts.length
+    : state.sourceFilter === "user"
+    ? filteredUserPosts.length
+    : filteredArchivePosts.length;
 
-  const filteredPosts = targetPosts.filter((post) => {
-    const LowerQuery = state.query.toLowerCase();
-    return (
-      post.text.toLowerCase().includes(LowerQuery) ||
-      post.description.toLowerCase().includes(LowerQuery)
-    );
-  });
-  
   const setQuery = (query: string) => 
     dispatch({ type: "SET_QUERY", payload: query });
 
@@ -96,13 +104,16 @@ export function ArchiveProvider({
   const addPost = (text: string, description: string) => 
     dispatch({ type: "ADD_POST", payload: { text, description } });
 
+  const deletePost = (id: string) =>
+    dispatch({ type: "DELETE_POST", payload: id,});
+
   const clearPosts = () => 
     dispatch({ type: "CLEAR_POSTS" });
   
 
     return(
         <ArchiveContext.Provider value={{ 
-            ...state,filteredPosts, totalResults: filteredPosts.length, setSourceFilter, setQuery, addPost, clearPosts
+            ...state,filteredUserPosts, filteredArchivePosts, totalResults, setSourceFilter, setQuery, addPost, clearPosts, deletePost
             }}>
           {children}
         </ArchiveContext.Provider>

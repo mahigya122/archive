@@ -2,8 +2,10 @@ import { useArchive } from "../context/postContext";
 import { useState } from "react";
 
 export default function PostArchive() {
-  const { archive, addPost } = useArchive();
+  const { filteredArchivePosts, addPost, sourceFilter } = useArchive();
   const [showArchive, setShowArchive] = useState(true);
+
+    if (sourceFilter === "user") return null;
 
 
   return (
@@ -12,7 +14,7 @@ export default function PostArchive() {
     <div className="flex items-center justify-between border-b border-border pb-4">
       <div className="flex items-center gap-3">
         <h2 className="text-xl font-black text-text-strong uppercase tracking-tighter">
-          Post <span className="text-primary">Archive</span>
+          Post{" "} <span className="text-primary">Archive</span>
         </h2>
         <div className="h-4 w-px bg-border" />
         <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">History</span>
@@ -28,7 +30,7 @@ export default function PostArchive() {
 
     {showArchive && (
       <div className="grid gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
-        {archive.map((post) => (
+        {filteredArchivePosts.map((post) => (
           <div
             key={post.id}
             className="flex flex-col sm:flex-row justify-between items-start sm:items-center border border-border p-5 rounded-xl bg-surface/40 hover:bg-surface hover:border-primary/30 transition-all gap-4 group"
@@ -42,14 +44,16 @@ export default function PostArchive() {
               </p>
             </div>
 
+          {/* {sourceFilter !== "user" && ( */}
           <button 
                 onClick={() => addPost(post.text, post.description)}
                 className="shrink-0 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg border border-primary/20 text-primary hover:bg-primary hover:text-white transition-all"
               >
                 Restore post
-              </button>
+              </button> 
               </div>
-        ))}
+        ))
+        }
       </div>
     )}
 
